@@ -1,38 +1,45 @@
-# KARI-Detection (kari-det) - Beta version
+# KARI 객체탐지 모델 (kari-det)
 
-Korea Aerospace Research Institute (KARI) AI Lab, 2023.
+한국항공우주연구원(KARI) 국가위성활용지원센터 AI Lab, 2023.
 
-## Docker Build
+## Docker 빌드
 ```
 docker build --tag kari-det:latest .
 ```
-This process may take some time. Please be patient. 
-The source code will be authomatically located on /kari-det.
+이 과정은 시간이 걸릴 수 있습니다. 소스코드는 자동으로 /kari-det에 설치가 됩니다.
 
-## Docker Run
-Run the container with the following command, enabling GPU support, specifying shared memory size, and setting up a volume mount for the data directory:
+## Docker 실행
+다음 명령어를 실행해서 GPU 사용, 공유 메모리 설정, 데이터가 놓일 디렉토리에 대한 볼륨 마운트 설정을 합니다.
 
 ```
 docker run --gpus all -it --shm-size 4g --rm -v images:/kari-det/images:ro kari-det:latest bash
 ```
 
 ## Inference (storage detection)
+도커 환경내에서 다음 명령어로 'kari-det' Conda 환경을 활성화합니다.
 
-Activate the 'kari-det' Conda environment using the following command:
 ```
 conda activate kari-det
 ```
 ```
 cd kari-det
 ```
-If this is your first time running the program, you need to install it first. To do so, enter the following command:
+프로그램을 처음 실행하는 경우, 다음 명령어를 실행합니다.
+
 ```
 pip install -e .
 ```
-To perform inference on your images, execute the following command, replacing the paths with your desired input directories:
+아리랑 위성영상에 대해 추론하기 위해서는 입력영상이 있는 디렉토리를 지정하여 다음과 같이 실행합니다. (정유 탱크 탐지의 예)
 
 ```
 ./kari-det_oil_tanks.sh /kari-det/images
 ```
+특정 클래스 외에 모든 클래스에 대해 추론하는 경우, 다음의 명령어를 실행합니다.
+```
+./kari-det predict model=./weights/kari-det.pt source=$SOURCE imgsz=1024 classes=10 save=True max_det=1000
+```
 
-If you have any questions, please do not hesitate to contact me at ohhan@kari.re.kr.
+본 모델은 Ultralytics사의 YOLOv8 모델을 기반으로 작성되었습니다.
+학습된 weight 파일은 다음 URL에서 다운 받으실 수 있습니다.
+본 모델과 관련하여 질문이 있는 경우 다음의 이메일 주소로 연락바랍니다. 
+오한 (ohhan@kari.re.kr)
