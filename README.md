@@ -1,6 +1,6 @@
 # KARI 객체탐지 모델 (kari-det)
 
-![예시](./assets/obj_det_example.png "객체탐지 예시")
+![예시](./assets/obj_det_example.jpg "객체탐지 예시")
 한국항공우주연구원(KARI) 국가위성활용지원센터 AI Lab, 2023.
 
 ## Docker 빌드
@@ -37,7 +37,7 @@ pip install -e .
 ```
 특정 클래스 외에 모든 클래스에 대해 추론하는 경우, 다음의 명령어를 실행합니다.
 ```
-./kari-det predict model=./weights/kari-det.pt source=$SOURCE imgsz=1024 classes=10 save=True max_det=1000
+./kari-det predict model=./weights/kari-det.pt source=/kari-det/images imgsz=1024 save=True max_det=1000
 ```
 
 본 모델은 Ultralytics사의 YOLOv8 모델을 기반으로 작성되었습니다.
